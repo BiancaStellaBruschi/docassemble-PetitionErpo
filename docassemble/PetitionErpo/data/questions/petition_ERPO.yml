@@ -1,0 +1,443 @@
+---
+include:
+  - docassemble.AssemblyLine:assembly_line.yml
+  - docassemble.ALMassachusetts:al_massachusetts.yml
+  - docassemble.MassAccess:massaccess.yml
+---
+metadata:
+  title: |
+    Petition for Extreme Risk Protection Order (ERPO)
+  short title: |
+    The following interview will help you to complete the petition for filing an ERPO.
+  authors:
+    - Bianca Stella Bruschi
+---
+mandatory: True
+comment: |
+  Global interview metadata
+variable name: interview_metadata["petition_ERPO"]
+data:
+  al_weaver_version: "1.7.0"
+  generated on: "2022-11-26"
+  title: >-
+    Petition for Extreme Risk Protection Order (ERPO)
+  short title: >-
+    The following interview will help you to complete the petition for filing an ERPO.
+  description: |-
+    The ERPO is a form you can file when you want to ask for Police intervention to take away firearms owned by a member of your household or family or to ask to suspend their firearm license temporarily. 
+    Remember that you can file an ERPO only if you have a particular relationship with the respondent (family, spouses, partners, ex-partners, etc.). 
+    If you do not qualify for filing an ERPO, the interview will inform you accordingly. 
+    If you qualify to file an ERPO, this interview will generate a complete PDF of the petition that you can bring to the closest Police station or forward via e-mail upon call. 
+    A judge will read your form and decide whether to grant or deny this petition.
+  original_form: >-
+    None
+  allowed courts: []
+  categories: []
+  typical role: "plaintiff"
+  generate download screen: True
+---
+code: |
+  interview_metadata['main_interview_key'] =  'petition_ERPO'
+---
+code: |
+  # This controls the default country and list of states in address field questions
+  AL_DEFAULT_COUNTRY = "US"
+---
+code: |
+  # This controls the default state in address field questions
+  AL_DEFAULT_STATE = "MA"
+---
+code: |
+  github_repo_name =  'docassemble-PetitionErpo'
+---
+code: |
+  interview_short_title = "File a Petition for Extreme Risk Protection Order (ERPO)"
+---
+code: |
+  al_form_type = "other" 
+---
+objects:
+  - users: ALPeopleList.using(there_are_any=True)
+---
+sections:
+  - review_petition_ERPO: Review your answers
+---
+#################### Interview order #####################
+comment: |
+  Controls order and branching logic for questions specific to this form
+id: interview_order_petition_ERPO
+code: |
+  # Set the allowed courts for this interview
+  allowed_courts = interview_metadata["petition_ERPO"]["allowed courts"]
+  nav.set_section("review_petition_ERPO")
+  user_role = "plaintiff"
+  users_name_erpo
+  respondents_name_erpo
+  respondents_addrss_erpo
+  set_progress(16)
+  renewal
+  relationship_engaged
+  pending_abuse_order
+  set_progress(32)
+  pending_legal_action_specs
+  respondents_license_and_weapons
+  respondents_firearms_loc
+  set_progress(48)
+  risk_of_causing_bodily_injury_to_self_or_others_
+  sign_day
+  more_space
+  set_progress(64)
+  sign_petitioner
+  interview_order_petition_ERPO = True
+---
+###################### Main order ######################
+comment: |
+  This block includes the logic for standalone interviews.
+  Delete mandatory: True to include in another interview
+mandatory: True
+code: |
+  al_intro_screen
+  petition_ERPO_intro
+  interview_order_petition_ERPO
+  signature_date
+  # Store anonymous data for analytics / statistics
+  store_variables_snapshot(
+      persistent=True,
+      data={
+          "zip": showifdef("users[0].address.zip"),
+          "reached_interview_end": True,
+      },
+  )
+  petition_ERPO_preview_question
+  basic_questions_signature_flow    
+  sign_petitioner
+  petition_ERPO_download
+---
+comment: |
+  This question is used to introduce your interview. Please customize
+id: Petition_for_Extreme_Risk_Protection_Order_ERPO
+continue button field: petition_ERPO_intro
+question: |
+  Petition for Extreme Risk Protection Order (ERPO)
+subquestion: |
+  The ERPO is a form you can file when you want to ask for **Police intervention** to **take away firearms** owned by a member of your **household** or **family** or to ask to **suspend their firearm license** temporarily.
+  
+    Remember that you can file an ERPO only if you have a particular relationship with the respondent (family, spouses, partners, ex-partners, etc.). 
+    
+    If you do not qualify for filing an ERPO, this interview will inform you accordingly. 
+    
+    If you qualify to file an ERPO, this interview will **generate a complete PDF** of the petition that you can bring to the closest Police station or forward via e-mail upon call. 
+    A judge will read your form and decide whether to grant or deny this petition.
+    
+    This interview will take **15-20 minutes** to complete. You will have to give your **personal information** and that of the person owning the firearms/license (aka the Respondent). 
+    
+  You will be asked to give as many details about the danger posed by firearms in your or your close ones' home. Also, you will need to dive into as many details as possible about where the firearms are located.
+---
+id: What is your name
+question: |
+  What is your name?
+subquestion: |
+  Insert your full name below.
+fields:
+  - "Petitioner Full Name": users_name_erpo
+    maxlength: 40
+---
+id: Who is the person that you are seeking the order against aka the respondent
+question: |
+  Who is the person  that you are seeking the order against (aka the Respondent)?
+subquestion: |
+  Insert their full name below.
+fields:
+  - "Respondent's Full Name": respondents_name_erpo
+    maxlength: 41
+---
+id: person's address
+question: |
+  What is the Respondent’s address?
+subquestion: |
+  Insert their full address below (Street number, name of the street, apartment number if present, City, state, and zip code).
+fields:
+  - "Respondent's Address": respondents_addrss_erpo
+    input type: area
+    maxlength: 129
+---
+id: Is this your first petition to file an ERPO against the respondent or is it a renewal
+question: |
+  Is this your first petition to file an ERPO against the respondent, or is it a renewal?
+subquestion: |
+  If this is a renewal, check the box below. If not, click 'Next'.
+fields:
+  - "Renewal": renewal
+    datatype: yesno
+---
+id: What is your current relationship with the respondent
+question: |
+  What is your current relationship with the Respondent?
+subquestion: |
+  Check all that apply.
+fields:
+  - "I am, or was, engaged to the Respondent": relationship_engaged
+    datatype: yesno
+  - "I am, or was, related to the Respondent by blood or marriage": rel_related
+    datatype: yesno
+  - "I am, or was, married to the respondent": relationship_married
+    datatype: yesno
+  - "I have, or am having, a child in common with the Respondent": rel_child_common
+    datatype: yesno
+  - "I am, or was, in a substantive dating relationship with the Respondent": rel_dating
+    datatype: yesno
+  - "I reside, or was residing, with the Respondent in the same household": relationship_household
+    datatype: yesno
+  - "None of these apply" : more_space
+    datatype: yesno
+---
+id: Is there any of the following proceedings open either in Massachusetts or in another jurisdiction
+question: |
+  Is there any of the following proceedings open either in Massachusetts or in another jurisdiction?
+subquestion: |
+  Only check if applicable. If not applicable, don’t check any box and click Next.
+fields:
+  - "An abuse prevention order in effect against the Repondent": pending_abuse_order
+    datatype: yesno
+  - "A harassment prevention order in effect against the Respondent": pending_harassment_order
+    datatype: yesno
+  - "A pending legal action": pending_legal_action
+    datatype: yesno
+---
+# This screen has to be made conditional.
+id: Which jurisdiction is the legal action pending in
+question: |
+  What type of legal action is pending against the Respondent?
+subquestion: |
+  Insert the type of legal action and specify the given jurisdiction.
+fields:
+  - "Pending legal action specifics": pending_legal_action_specs
+    input type: area
+    maxlength: 129
+---
+id: Does the respondent have a License to Carry a Firearm LTC and or a Firearm Identification Card FID Which type of firearm s does the respondent own
+question: |
+  Does the Respondent have a License to Carry a Firearm (LTC) and/or a Firearm Identification Card (FID)? Which type of firearm(s) does the respondent own?
+subquestion: |
+  Indicate the number of the ID Card or the License. If the respondent does not have an LTC or FID, answer the second question only. Specify which kind of firearm(s) the respondent has (rifle, gun, shotgun, machine gun etc.). 
+fields:
+  - "Respondent's LTC/FID/Firearms": respondents_license_and_weapons
+    input type: area
+    maxlength: 348
+---
+id: Can you point where the firearm s are located in the house
+question: |
+  Can you point where the firearm(s) are located?
+subquestion: |
+  Be as specific as you can. The more information you provide, the easier it will be for Police to find the weapon and take it away.
+fields:
+  - "Respondents firearms loc": respondents_firearms_loc
+    input type: area
+    maxlength: 264
+---
+id: Why do you think the respondent poses a risk of injury to you themselves or others by having control of the firearm s
+question: |
+  Why do you think the Respondent poses a risk of injury to you, themselves, or others by having control of the firearm(s)?
+subquestion: |
+  Give as much detail as possible.
+fields:
+  - "Risk of causing bodily injury to self or others": risk_of_causing_bodily_injury_to_self_or_others_
+    input type: area
+---
+id: Insert today s date and your signature in the box below
+question: |
+  Insert today’s date and your signature in the box below.
+fields:
+  - "Petitioner Signature": sign_petitioner 
+  - "Sign day": sign_day
+    datatype: date
+---
+id: Screen 12
+question: |
+  Screen 12
+fields:
+  - "Additional info": additional_info
+    input type: area
+    maxlength: 2852
+---
+id: preview petition_ERPO
+question: |
+  Preview your form before you sign it
+subquestion: |
+  Here is a preview of the form you will sign on the next page.   
+  
+  ${ al_recipient_bundle.as_pdf(key='preview') }
+
+  Click the image to open it in a new tab. Click the "Edit answers" button
+  to edit your answers.
+
+  ${ action_button_html(url_action('review_petition_ERPO'), label='Edit answers', color='info') }
+  
+  Remember to come back to this window to continue and sign your form.
+continue button field: petition_ERPO_preview_question    
+---
+code: |
+  signature_fields = ['sign_petitioner']
+---
+id: petition ERPO review screen
+event: review_petition_ERPO
+question: |
+  Review your answers
+review:
+  - Edit: users_name_erpo
+    button: |
+      **Users name erpo**:
+      ${ users_name_erpo }
+  - Edit: respondents_name_erpo
+    button: |
+      **Respondents name erpo**:
+      ${ respondents_name_erpo }
+  - Edit: renewal
+    button: |
+      **Renewal**:
+      ${ word(yesno(renewal)) }
+  - Edit: respondents_addrss_erpo
+    button: |
+      **Respondents addrss erpo**:
+      > ${ single_paragraph(respondents_addrss_erpo) }
+  - Edit: respondents_license_and_weapons
+    button: |
+      **Respondents license and weapons**:
+      > ${ single_paragraph(respondents_license_and_weapons) }
+  - Edit: respondents_firearms_loc
+    button: |
+      **Respondents firearms loc**:
+      > ${ single_paragraph(respondents_firearms_loc) }
+  - Edit: relationship_engaged
+    button: |
+      **Relationship engaged**:
+      ${ word(yesno(relationship_engaged)) }
+  - Edit: rel_related
+    button: |
+      **Rel related**:
+      ${ word(yesno(rel_related)) }
+  - Edit: relationship_married
+    button: |
+      **Rel married**:
+      ${ word(yesno(relationship_married)) }
+  - Edit: rel_child_common
+    button: |
+      **Rel child common**:
+      ${ word(yesno(rel_child_common)) }
+  - Edit: rel_dating
+    button: |
+      **Rel dating**:
+      ${ word(yesno(rel_dating)) }
+  - Edit: relationship_household
+    button: |
+      **Rel household**:
+      ${ word(yesno(relationship_household)) }
+  - Edit: pending_abuse_order
+    button: |
+      **Pending abuse order**:
+      ${ word(yesno(pending_abuse_order)) }
+  - Edit: pending_harassment_order
+    button: |
+      **Pending harassment order**:
+      ${ word(yesno(pending_harassment_order)) }
+  - Edit: pending_legal_action_specs
+    button: |
+      **Pending legal action specs**:
+      ${ pending_legal_action_specs }
+  - Edit: pending_legal_action
+    button: |
+      **Pending legal action**:
+      ${ word(yesno(pending_legal_action)) }
+  - Edit: risk_of_causing_bodily_injury_to_self_or_others_
+    button: |
+      **Risk of causing bodily injury to self or others**:
+      > ${ single_paragraph(risk_of_causing_bodily_injury_to_self_or_others_) }
+  - Edit: more_space
+    button: |
+      **More space**:
+      ${ word(yesno(more_space)) }
+  - Edit: sign_day
+    button: |
+      **Sign day**:
+      ${ sign_day }
+  - Edit: sign_petitioner
+    button: |
+      **sign_petitioner**:
+      ${ sign_petitioner }
+  - Edit: additional_info
+    button: |
+      **Additional info**:
+      > ${ single_paragraph(additional_info) }
+---
+id: download petition_ERPO
+event: petition_ERPO_download
+question: |
+  All done
+subquestion: |
+  Thank you ${users}. Your form is ready to download and deliver.
+  
+  View, download and send your form below. Click the "Edit answers" button to fix any mistakes.
+
+  ${ action_button_html(url_action('review_petition_ERPO'), label='Edit answers', color='info') }
+  
+  
+  ${ al_user_bundle.download_list_html() }
+  
+
+  ${ al_user_bundle.send_button_html(show_editable_checkbox=False) }
+
+progress: 100
+---
+# ALDocument objects specify the metadata for each template
+objects:
+  - petition_ERPO_Post_interview_instructions: ALDocument.using(title="Instructions", filename="petition_ERPO_next_steps.docx", enabled=True, has_addendum=False, default_overflow_message=AL_DEFAULT_OVERFLOW_MESSAGE)
+  - petition_ERPO_attachment: ALDocument.using(title="Petition for Extreme Risk Protection Order (ERPO)", filename="petition_ERPO", enabled=True, has_addendum=True, default_overflow_message=AL_DEFAULT_OVERFLOW_MESSAGE)
+---
+# Bundles group the ALDocuments into separate downloads, such as for court and for the user
+objects:
+  - al_user_bundle: ALDocumentBundle.using(elements=[petition_ERPO_Post_interview_instructions, petition_ERPO_attachment], filename="petition_ERPO", title="All forms to download for your records", enabled=True)
+  - al_recipient_bundle: ALDocumentBundle.using(elements=[petition_ERPO_attachment],  filename="petition_ERPO", title="All forms to file", enabled=True)
+---
+# Each attachment defines a key in an ALDocument. We use `i` as the placeholder here so the same template is 
+# used for "preview" and "final" keys, and logic in the template checks the value of 
+# `i` to show or hide the user's signature
+attachments:
+  - name: Post-interview-Instructions
+    filename: petition_ERPO_next_steps
+    docx template file: petition_ERPO_next_steps.docx
+    variable name: petition_ERPO_Post_interview_instructions[i]
+  - name: petition ERPO
+    filename: petition_ERPO
+    variable name: petition_ERPO_attachment[i]
+    skip undefined: True
+    pdf template file: petition_ERPO.pdf
+    fields:
+      - "users_name_erpo": ${ users_name_erpo }
+      - "respondents_name_erpo": ${ respondents_name_erpo }
+      - "renewal": ${ renewal }
+      - "respondents_addrss_erpo": ${ respondents_addrss_erpo }
+      - "respondents_license_and_weapons": ${ respondents_license_and_weapons }
+      - "respondents_firearms_loc": ${ respondents_firearms_loc }
+      - "relationship_engaged": ${ relationship_engaged }
+      - "rel_related": ${ rel_related }
+      - "relationship_married": ${ relationship_married }
+      - "rel_child_common": ${ rel_child_common }
+      - "rel_dating": ${ rel_dating }
+      - "relationship_household": ${ relationship_household }
+      - "pending_abuse_order": ${ pending_abuse_order }
+      - "pending_harassment_order": ${ pending_harassment_order }
+      - "pending_legal_action_specs": ${ pending_legal_action_specs }
+      - "pending_legal_action": ${ pending_legal_action }
+      - "risk_of_causing_bodily_injury_to_self_or_others_": ${ attachment_name.safe_value("risk_of_causing_bodily_injury_to_self_or_others_") }
+      - "more_space": ${ more_space }
+      - "sign_day": ${ sign_day.format() }
+      # It's a signature: test which file version this is; leave empty unless it's the final version)
+      - "sign_petitioner": ${ sign_petitioner if i == "final" else '' }
+      - "additional_info": ${ additional_info }
+---
+code: |
+  petition_ERPO_attachment.overflow_fields["risk_of_causing_bodily_injury_to_self_or_others_"].overflow_trigger = 460
+  petition_ERPO_attachment.overflow_fields["risk_of_causing_bodily_injury_to_self_or_others_"].label = "Risk of causing bodily injury to self or others"
+  petition_ERPO_attachment.overflow_fields.gathered = True
+
+
