@@ -58,6 +58,7 @@ code: |
 ---
 objects:
   - users: ALPeopleList.using(there_are_any=True)
+  - home: ALPeopleList.using(there_are_any=True)
 ---
 sections:
   - review_petition_ERPO: Review your answers
@@ -71,15 +72,16 @@ code: |
   allowed_courts = interview_metadata["petition_ERPO"]["allowed courts"]
   nav.set_section("review_petition_ERPO")
   user_role = "plaintiff"
-  users_name_erpo
+  users[0].name.first
   respondents_name_erpo
-  respondents_addrss_erpo
+  home[0].address.address
   set_progress(16)
   renewal
-  relationship_engaged
+  relationship_engaged 
   pending_abuse_order
   set_progress(32)
-  pending_legal_action_specs
+  if pending_legal_action == True:
+    pending_legal_action_specs
   respondents_license_and_weapons
   respondents_firearms_loc
   set_progress(48)
@@ -89,6 +91,11 @@ code: |
   set_progress(64)
   sign_petitioner
   interview_order_petition_ERPO = True
+---
+code: |
+  if pending_legal_action == False: 
+    pending_legal_action_specs = ""
+    
 ---
 ###################### Main order ######################
 comment: |
@@ -133,14 +140,16 @@ subquestion: |
     
   You will be asked to give as many details about the danger posed by firearms in your or your close ones' home. Also, you will need to dive into as many details as possible about where the firearms are located.
 ---
-id: What is your name
+id: Person's name 
 question: |
   What is your name?
 subquestion: |
   Insert your full name below.
 fields:
-  - "Petitioner Full Name": users_name_erpo
-    maxlength: 40
+  - "First Name": users[0].name.first
+  - "Middle Name": users[0].name.middle
+    required: false 
+  - "Last Name": users[0].name.last
 ---
 id: Who is the person that you are seeking the order against aka the respondent
 question: |
@@ -157,9 +166,12 @@ question: |
 subquestion: |
   Insert their full address below (Street number, name of the street, apartment number if present, City, state, and zip code).
 fields:
-  - "Respondent's Address": respondents_addrss_erpo
-    input type: area
-    maxlength: 129
+  - "Street Address": home[0].address.address
+  - "Apartment": home[0].address.unit
+    required: False
+  - "City": home[0].address.city
+  - "State": home[0].address.state
+  - "Zip Code": home[0].address.zip
 ---
 id: Is this your first petition to file an ERPO against the respondent or is it a renewal
 question: |
@@ -205,7 +217,7 @@ fields:
     datatype: yesno
 ---
 # This screen has to be made conditional.
-id: Which jurisdiction is the legal action pending in
+id: Type of legal acttion and jurisdiction 
 question: |
   What type of legal action is pending against the Respondent?
 subquestion: |
@@ -412,10 +424,10 @@ attachments:
     skip undefined: True
     pdf template file: petition_ERPO.pdf
     fields:
-      - "users_name_erpo": ${ users_name_erpo }
+      - "users_name_erpo": ${ users[0].name.full }
       - "respondents_name_erpo": ${ respondents_name_erpo }
       - "renewal": ${ renewal }
-      - "respondents_addrss_erpo": ${ respondents_addrss_erpo }
+      - "respondents_addrss_erpo": ${ home[0].address.on_one_line() }
       - "respondents_license_and_weapons": ${ respondents_license_and_weapons }
       - "respondents_firearms_loc": ${ respondents_firearms_loc }
       - "relationship_engaged": ${ relationship_engaged }
