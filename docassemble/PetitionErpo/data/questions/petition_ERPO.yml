@@ -73,11 +73,13 @@ code: |
   nav.set_section("review_petition_ERPO")
   user_role = "plaintiff"
   users[0].name.first
-  respondents_name_erpo
+  users[1].name.first
   home[0].address.address
   set_progress(16)
   renewal
-  relationship_engaged 
+  relationship_engaged
+  if none_apply == True:
+    no_relationship
   pending_abuse_order
   set_progress(32)
   if pending_legal_action == True:
@@ -86,10 +88,9 @@ code: |
   respondents_firearms_loc
   set_progress(48)
   risk_of_causing_bodily_injury_to_self_or_others_
-  sign_day
   more_space
   set_progress(64)
-  sign_petitioner
+  signature_date
   interview_order_petition_ERPO = True
 ---
 code: |
@@ -106,7 +107,8 @@ code: |
   al_intro_screen
   petition_ERPO_intro
   interview_order_petition_ERPO
-  signature_date
+  if signature_date:
+    share= True  
   # Store anonymous data for analytics / statistics
   store_variables_snapshot(
       persistent=True,
@@ -117,7 +119,6 @@ code: |
   )
   petition_ERPO_preview_question
   basic_questions_signature_flow    
-  sign_petitioner
   petition_ERPO_download
 ---
 comment: |
@@ -127,14 +128,14 @@ continue button field: petition_ERPO_intro
 question: |
   Petition for Extreme Risk Protection Order (ERPO)
 subquestion: |
-  The ERPO is a form you can file when you want to ask for **Police intervention** to **take away firearms** owned by a member of your **household** or **family** or to ask to **suspend their firearm license** temporarily.
+  The ERPO is a form you can file when you want to ask for **Police intervention** to **take away firearms** owned by a **member of your** **family**/**household** or to ask to **suspend their firearm license** temporarily.
   
     Remember that you can file an ERPO only if you have a particular relationship with the respondent (family, spouses, partners, ex-partners, etc.). 
     
     If you do not qualify for filing an ERPO, this interview will inform you accordingly. 
     
     If you qualify to file an ERPO, this interview will **generate a complete PDF** of the petition that you can bring to the closest Police station or forward via e-mail upon call. 
-    A judge will read your form and decide whether to grant or deny this petition.
+    A judge will read your form and decide whether to **grant or deny** this petition.
     
     This interview will take **15-20 minutes** to complete. You will have to give your **personal information** and that of the person owning the firearms/license (aka the Respondent). 
     
@@ -157,8 +158,10 @@ question: |
 subquestion: |
   Insert their full name below.
 fields:
-  - "Respondent's Full Name": respondents_name_erpo
-    maxlength: 41
+  - "First Name": users[1].name.first
+  - "Middle Name": users[1].name.middle
+    required: false
+  - "Last Name": users[1].name.last
 ---
 id: person's address
 question: |
@@ -200,8 +203,15 @@ fields:
     datatype: yesno
   - "I reside, or was residing, with the Respondent in the same household": relationship_household
     datatype: yesno
-  - "None of these apply" : more_space
+  - "None of these apply" : none_apply
     datatype: yesno
+---
+id: no_relationship
+question: |
+  You are ineligible
+subquestion: |
+  Call Police. # EDIT 
+event: no_relationship
 ---
 id: Is there any of the following proceedings open either in Massachusetts or in another jurisdiction
 question: |
@@ -256,13 +266,7 @@ fields:
   - "Risk of causing bodily injury to self or others": risk_of_causing_bodily_injury_to_self_or_others_
     input type: area
 ---
-id: Insert today s date and your signature in the box below
-question: |
-  Insert today’s date and your signature in the box below.
-fields:
-  - "Petitioner Signature": sign_petitioner 
-  - "Sign day": sign_day
-    datatype: date
+
 ---
 id: Screen 12
 question: |
@@ -289,7 +293,7 @@ subquestion: |
 continue button field: petition_ERPO_preview_question    
 ---
 code: |
-  signature_fields = ['sign_petitioner']
+  signature_fields = ['users[0].signature']
 ---
 id: petition ERPO review screen
 event: review_petition_ERPO
@@ -424,8 +428,8 @@ attachments:
     skip undefined: True
     pdf template file: petition_ERPO.pdf
     fields:
-      - "users_name_erpo": ${ users[0].name.full }
-      - "respondents_name_erpo": ${ respondents_name_erpo }
+      - "users_name_erpo": ${ users[0].name.full() }
+      - "respondents_name_erpo": ${ users[1].name.full() }
       - "renewal": ${ renewal }
       - "respondents_addrss_erpo": ${ home[0].address.on_one_line() }
       - "respondents_license_and_weapons": ${ respondents_license_and_weapons }
@@ -440,11 +444,11 @@ attachments:
       - "pending_harassment_order": ${ pending_harassment_order }
       - "pending_legal_action_specs": ${ pending_legal_action_specs }
       - "pending_legal_action": ${ pending_legal_action }
-      - "risk_of_causing_bodily_injury_to_self_or_others_": ${ attachment_name.safe_value("risk_of_causing_bodily_injury_to_self_or_others_") }
+      - "risk_of_causing_bodily_injury_to_self_or_others_": ${ risk_of_causing_bodily_injury_to_self_or_others_ }
       - "more_space": ${ more_space }
-      - "sign_day": ${ sign_day.format() }
+      - "sign_day": ${ signature_date.format() }
       # It's a signature: test which file version this is; leave empty unless it's the final version)
-      - "sign_petitioner": ${ sign_petitioner if i == "final" else '' }
+      - "sign_petitioner": ${ users[0].signature if i == "final" else '' }
       - "additional_info": ${ additional_info }
 ---
 code: |
