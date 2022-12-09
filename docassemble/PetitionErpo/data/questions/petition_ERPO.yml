@@ -265,6 +265,7 @@ subquestion: |
 fields:
   - "Risk of causing bodily injury to self or others": risk_of_causing_bodily_injury_to_self_or_others_
     input type: area
+    maxlength: 2852
 ---
 
 ---
@@ -372,14 +373,14 @@ review:
     button: |
       **More space**:
       ${ word(yesno(more_space)) }
-  - Edit: sign_day
+  - Edit: signature_date
     button: |
       **Sign day**:
-      ${ sign_day }
-  - Edit: sign_petitioner
+      ${ signature_date }
+  - Edit: users[0].signature
     button: |
       **sign_petitioner**:
-      ${ sign_petitioner }
+      ${ users[0].signature }
   - Edit: additional_info
     button: |
       **Additional info**:
@@ -444,15 +445,15 @@ attachments:
       - "pending_harassment_order": ${ pending_harassment_order }
       - "pending_legal_action_specs": ${ pending_legal_action_specs }
       - "pending_legal_action": ${ pending_legal_action }
-      - "risk_of_causing_bodily_injury_to_self_or_others_": ${ risk_of_causing_bodily_injury_to_self_or_others_ }
+      - "risk_of_causing_bodily_injury_to_self_or_others_": ${ petition_ERPO_attachment.safe_value("risk_of_causing_bodily_injury_to_self_or_others_") }
       - "more_space": ${ more_space }
       - "sign_day": ${ signature_date.format() }
       # It's a signature: test which file version this is; leave empty unless it's the final version)
       - "sign_petitioner": ${ users[0].signature if i == "final" else '' }
-      - "additional_info": ${ additional_info }
+      - "additional_info": ${ petition_ERPO_attachment.overflow_value("risk_of_causing_bodily_injury_to_self_or_others_") }
 ---
 code: |
-  petition_ERPO_attachment.overflow_fields["risk_of_causing_bodily_injury_to_self_or_others_"].overflow_trigger = 460
+  petition_ERPO_attachment.overflow_fields["risk_of_causing_bodily_injury_to_self_or_others_"].overflow_trigger = 400
   petition_ERPO_attachment.overflow_fields["risk_of_causing_bodily_injury_to_self_or_others_"].label = "Risk of causing bodily injury to self or others"
   petition_ERPO_attachment.overflow_fields.gathered = True
 
