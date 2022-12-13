@@ -78,24 +78,23 @@ code: |
   set_progress(16)
   renewal
   relationship_engaged
-  if none_apply == True:
+  if none_apply == True:  # if non of the relationships from the form applies to the petitioner, they are not eligible to file an ERPO, and a screen will inform them accordingly. 
     no_relationship
   pending_abuse_order
   set_progress(32)
   if pending_legal_action == True:
-    pending_legal_action_specs
+    pending_legal_action_specs # Conditional screen if there is a pending legal action, so that the Petitioner can add its specifics. 
   respondents_license_and_weapons
   respondents_firearms_loc
   set_progress(48)
   risk_of_causing_bodily_injury_to_self_or_others_
-  more_space
   set_progress(64)
   signature_date
   interview_order_petition_ERPO = True
 ---
 code: |
   if pending_legal_action == False: 
-    pending_legal_action_specs = ""
+    pending_legal_action_specs = "" # skipping the screen with the specifics of the pending legal action, if there isn't any pending legal action. 
     
 ---
 ###################### Main order ######################
@@ -128,16 +127,16 @@ continue button field: petition_ERPO_intro
 question: |
   Petition for Extreme Risk Protection Order (ERPO)
 subquestion: |
-  The ERPO is a form you can file when you want to ask for **Police intervention** to **take away firearms** owned by a **member of your** **family**/**household** or to ask to **suspend their firearm license** temporarily.
+  The [ERPO](https://www.mass.gov/how-to/request-an-extreme-risk-protection-order) is a petition for **Police intervention** to **take away firearms** owned by a **member of your** **family**/**household** (aka the **Respondent**) or to ask to **suspend their firearm license** temporarily. 
   
-    Remember that you can file an ERPO only if you have a particular relationship with the respondent (family, spouses, partners, ex-partners, etc.). 
+    Remember that you can file an ERPO only if you have a particular relationship with the Respondent (family, spouses, partners, ex-partners, etc.). 
     
-    If you do not qualify for filing an ERPO, this interview will inform you accordingly. 
+    * If you do not qualify for filing an ERPO, this interview will inform you accordingly. 
     
-    If you qualify to file an ERPO, this interview will **generate a complete PDF** of the petition that you can bring to the closest Police station or forward via e-mail upon call. 
+    * If you qualify to file an ERPO, this interview will **generate a complete PDF** of the petition that you can bring to the closest Police station or forward via e-mail upon call. 
     A judge will read your form and decide whether to **grant or deny** this petition.
     
-    This interview will take **15-20 minutes** to complete. You will have to give your **personal information** and that of the person owning the firearms/license (aka the Respondent). 
+    This interview will take **15-20 minutes** to complete. You will have to give your **personal information** and that of the Respondent's. 
     
   You will be asked to give as many details about the danger posed by firearms in your or your close ones' home. Also, you will need to dive into as many details as possible about where the firearms are located.
 ---
@@ -145,7 +144,7 @@ id: Person's name
 question: |
   What is your name?
 subquestion: |
-  Insert your full name below.
+  Insert your **full name** below.
 fields:
   - "First Name": users[0].name.first
   - "Middle Name": users[0].name.middle
@@ -156,7 +155,7 @@ id: Who is the person that you are seeking the order against aka the respondent
 question: |
   Who is the person  that you are seeking the order against (aka the Respondent)?
 subquestion: |
-  Insert their full name below.
+  Insert their **full name** below.
 fields:
   - "First Name": users[1].name.first
   - "Middle Name": users[1].name.middle
@@ -167,7 +166,7 @@ id: person's address
 question: |
   What is the Respondent’s address?
 subquestion: |
-  Insert their full address below (Street number, name of the street, apartment number if present, City, state, and zip code).
+  Insert their **full address** below (Street number, name of the street, apartment number if present, city, state, and zip code).
 fields:
   - "Street Address": home[0].address.address
   - "Apartment": home[0].address.unit
@@ -178,9 +177,9 @@ fields:
 ---
 id: Is this your first petition to file an ERPO against the respondent or is it a renewal
 question: |
-  Is this your first petition to file an ERPO against the respondent, or is it a renewal?
+  Is this your first time filing an ERPO against the Respondent, or is it a renewal?
 subquestion: |
-  If this is a renewal, check the box below. If not, click 'Next'.
+  If this is a **renewal**, check the box below. If not, click 'Next'.
 fields:
   - "Renewal": renewal
     datatype: yesno
@@ -189,13 +188,13 @@ id: What is your current relationship with the respondent
 question: |
   What is your current relationship with the Respondent?
 subquestion: |
-  Check all that apply.
+  Check **all** the options that apply. You can check multiples.  
 fields:
   - "I am, or was, engaged to the Respondent": relationship_engaged
     datatype: yesno
   - "I am, or was, related to the Respondent by blood or marriage": rel_related
     datatype: yesno
-  - "I am, or was, married to the respondent": relationship_married
+  - "I am, or was, married to the Respondent": relationship_married
     datatype: yesno
   - "I have, or am having, a child in common with the Respondent": rel_child_common
     datatype: yesno
@@ -208,16 +207,16 @@ fields:
 ---
 id: no_relationship
 question: |
-  You are ineligible
+  You are ineligible.
 subquestion: |
-  Call Police. # EDIT 
+  You are **ineligible** to directly file an ERPO. You can phone and alert your local Police Department about your dangerous situation. It will be up to them to decide whether to file an ERPO, after hearing your concerns.
 event: no_relationship
 ---
 id: Is there any of the following proceedings open either in Massachusetts or in another jurisdiction
 question: |
-  Is there any of the following proceedings open either in Massachusetts or in another jurisdiction?
+  Are you undertaking any of the following proceedings either in Massachusetts or in other jurisdictions?
 subquestion: |
-  Only check if applicable. If not applicable, don’t check any box and click Next.
+  Only check **if applicable**. If not applicable, don’t check any box and click **'Next'**.
 fields:
   - "An abuse prevention order in effect against the Repondent": pending_abuse_order
     datatype: yesno
@@ -226,12 +225,12 @@ fields:
   - "A pending legal action": pending_legal_action
     datatype: yesno
 ---
-# This screen has to be made conditional.
+
 id: Type of legal acttion and jurisdiction 
 question: |
   What type of legal action is pending against the Respondent?
 subquestion: |
-  Insert the type of legal action and specify the given jurisdiction.
+  Insert the type of **legal action** and specify the given **jurisdiction**.
 fields:
   - "Pending legal action specifics": pending_legal_action_specs
     input type: area
@@ -239,11 +238,15 @@ fields:
 ---
 id: Does the respondent have a License to Carry a Firearm LTC and or a Firearm Identification Card FID Which type of firearm s does the respondent own
 question: |
-  Does the Respondent have a License to Carry a Firearm (LTC) and/or a Firearm Identification Card (FID)? Which type of firearm(s) does the respondent own?
+  Does the Respondent have a License to Carry a Firearm (LTC) and/or a Firearm Identification Card (FID)? 
+  | 
+  Which type of firearm(s) does the Respondent own?
 subquestion: |
-  Indicate the number of the ID Card or the License. If the respondent does not have an LTC or FID, answer the second question only. Specify which kind of firearm(s) the respondent has (rifle, gun, shotgun, machine gun etc.). 
+  Indicate the **number** of the ID Card or the License (i.e, LTC n. #####; FID n. #####). 
+  
+  If the Respondent **does not** have an LTC or FID, only state what kind of firearm(s) does the Respondent own (i.e., rifle, gun, shotgun, machine gun etc.).
 fields:
-  - "Respondent's LTC/FID/Firearms": respondents_license_and_weapons
+  - "Respondent's LTC/FID/Firearm(s)": respondents_license_and_weapons
     input type: area
     maxlength: 348
 ---
@@ -251,7 +254,7 @@ id: Can you point where the firearm s are located in the house
 question: |
   Can you point where the firearm(s) are located?
 subquestion: |
-  Be as specific as you can. The more information you provide, the easier it will be for Police to find the weapon and take it away.
+  Be as specific as you can. The **more information** you provide, the easier it will be for Police to find the weapon and take it away.
 fields:
   - "Respondents firearms loc": respondents_firearms_loc
     input type: area
@@ -261,11 +264,12 @@ id: Why do you think the respondent poses a risk of injury to you themselves or 
 question: |
   Why do you think the Respondent poses a risk of injury to you, themselves, or others by having control of the firearm(s)?
 subquestion: |
-  Give as much detail as possible.
+  Give as much **detail** as possible.
 fields:
   - "Risk of causing bodily injury to self or others": risk_of_causing_bodily_injury_to_self_or_others_
     input type: area
-    maxlength: 2852
+    maxlength: 2852 
+# maxlength should actually be 2852 + 460 to allow the full amount of room provided. 
 ---
 
 ---
@@ -279,7 +283,7 @@ fields:
 ---
 id: preview petition_ERPO
 question: |
-  Preview your form before you sign it
+  Preview your form **before you sign it**
 subquestion: |
   Here is a preview of the form you will sign on the next page.   
   
@@ -300,23 +304,16 @@ id: petition ERPO review screen
 event: review_petition_ERPO
 question: |
   Review your answers
-review:
-  - Edit: users_name_erpo
+review: 
+  - Edit: users[0].name.first
     button: |
-      **Users name erpo**:
-      ${ users_name_erpo }
-  - Edit: respondents_name_erpo
-    button: |
-      **Respondents name erpo**:
-      ${ respondents_name_erpo }
+      **Your name**:
+      ${users[0].name.full()} 
   - Edit: renewal
     button: |
       **Renewal**:
-      ${ word(yesno(renewal)) }
-  - Edit: respondents_addrss_erpo
-    button: |
-      **Respondents addrss erpo**:
-      > ${ single_paragraph(respondents_addrss_erpo) }
+      ${ word(yesno(renewal)) } ${users[0].name.full()} 
+      
   - Edit: respondents_license_and_weapons
     button: |
       **Respondents license and weapons**:
@@ -369,10 +366,6 @@ review:
     button: |
       **Risk of causing bodily injury to self or others**:
       > ${ single_paragraph(risk_of_causing_bodily_injury_to_self_or_others_) }
-  - Edit: more_space
-    button: |
-      **More space**:
-      ${ word(yesno(more_space)) }
   - Edit: signature_date
     button: |
       **Sign day**:
@@ -380,11 +373,7 @@ review:
   - Edit: users[0].signature
     button: |
       **sign_petitioner**:
-      ${ users[0].signature }
-  - Edit: additional_info
-    button: |
-      **Additional info**:
-      > ${ single_paragraph(additional_info) }
+      ${ users[0].signature } 
 ---
 id: download petition_ERPO
 event: petition_ERPO_download
@@ -446,14 +435,14 @@ attachments:
       - "pending_legal_action_specs": ${ pending_legal_action_specs }
       - "pending_legal_action": ${ pending_legal_action }
       - "risk_of_causing_bodily_injury_to_self_or_others_": ${ petition_ERPO_attachment.safe_value("risk_of_causing_bodily_injury_to_self_or_others_") }
-      - "more_space": ${ more_space }
+      - "more_space": ${ len(risk_of_causing_bodily_injury_to_self_or_others_)>460 }
       - "sign_day": ${ signature_date.format() }
       # It's a signature: test which file version this is; leave empty unless it's the final version)
       - "sign_petitioner": ${ users[0].signature if i == "final" else '' }
       - "additional_info": ${ petition_ERPO_attachment.overflow_value("risk_of_causing_bodily_injury_to_self_or_others_") }
 ---
 code: |
-  petition_ERPO_attachment.overflow_fields["risk_of_causing_bodily_injury_to_self_or_others_"].overflow_trigger = 400
+  petition_ERPO_attachment.overflow_fields["risk_of_causing_bodily_injury_to_self_or_others_"].overflow_trigger = 460
   petition_ERPO_attachment.overflow_fields["risk_of_causing_bodily_injury_to_self_or_others_"].label = "Risk of causing bodily injury to self or others"
   petition_ERPO_attachment.overflow_fields.gathered = True
 
