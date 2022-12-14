@@ -127,18 +127,16 @@ continue button field: petition_ERPO_intro
 question: |
   Petition for Extreme Risk Protection Order (ERPO)
 subquestion: |
-  The [ERPO](https://www.mass.gov/how-to/request-an-extreme-risk-protection-order) is a petition for **Police intervention** to **take away firearms** owned by a **member of your** **family**/**household** (aka the **Respondent**) or to ask to **suspend their firearm license** temporarily. 
+  The [Petition for Extreme Risk Protection Order, (ERPO)](https://www.mass.gov/how-to/request-an-extreme-risk-protection-order) is a petition for **Police intervention** to **take away firearms** owned by a **member of your** **family**/**household** (aka the **Respondent**) or to ask to **suspend their firearm license** temporarily. 
   
-    Remember that you can file an ERPO only if you have a particular relationship with the Respondent (family, spouses, partners, ex-partners, etc.). 
+  This interview will allow you to fill out an ERPO. Remember that you can file an ERPO only if you have a particular relationship with the Respondent (family, spouses, partners, ex-partners, etc.). 
     
     * If you do not qualify for filing an ERPO, this interview will inform you accordingly. 
     
-    * If you qualify to file an ERPO, this interview will **generate a complete PDF** of the petition that you can bring to the closest Police station or forward via e-mail upon call. 
-    A judge will read your form and decide whether to **grant or deny** this petition.
+    * If you qualify to file an ERPO, this interview will **generate a complete PDF** of the petition. You will have to bring the form to a [District Court](https://www.mass.gov/special-rules-of-the-district-court/district-court-special-rule-201-clerks-office-hours) or [Boston Municipal Court](https://www.mass.gov/locations/central-division-boston-municipal-court) during **business hours**. If you need to file the petition **outside court business hours**, you can bring the completed form to the Police station of the Respondent's location, or the closest Police Station. 
+    A judge will then read your form and decide whether to **grant or deny** this petition.
     
-    This interview will take **15-20 minutes** to complete. You will have to give your **personal information** and that of the Respondent's. 
-    
-  You will be asked to give as many details about the danger posed by firearms in your or your close ones' home. Also, you will need to dive into as many details as possible about where the firearms are located.
+    This interview will take **15-20 minutes** to complete. You will have to give your **personal information** and that of the Respondent's, and as much information you can provide about the Respondent's firearm(s) and situation you find yourself in. 
 ---
 id: Person's name 
 question: |
@@ -209,7 +207,7 @@ id: no_relationship
 question: |
   You are ineligible.
 subquestion: |
-  You are **ineligible** to directly file an ERPO. You can phone and alert your local Police Department about your dangerous situation. It will be up to them to decide whether to file an ERPO, after hearing your concerns.
+  You are **ineligible** to directly file an ERPO. You can phone and alert your local Police Department about your dangerous situation. It will be up to them to decide whether to file an ERPO, after hearing your concerns. For more information, click [here](https://www.mass.gov/service-details/eligibility-for-extreme-risk-protection-orders-erpo).
 event: no_relationship
 ---
 id: Is there any of the following proceedings open either in Massachusetts or in another jurisdiction
@@ -435,14 +433,14 @@ attachments:
       - "pending_legal_action_specs": ${ pending_legal_action_specs }
       - "pending_legal_action": ${ pending_legal_action }
       - "risk_of_causing_bodily_injury_to_self_or_others_": ${ petition_ERPO_attachment.safe_value("risk_of_causing_bodily_injury_to_self_or_others_") }
-      - "more_space": ${ len(risk_of_causing_bodily_injury_to_self_or_others_)>460 }
+      - "more_space": ${ len(risk_of_causing_bodily_injury_to_self_or_others_)>400 }
       - "sign_day": ${ signature_date.format() }
       # It's a signature: test which file version this is; leave empty unless it's the final version)
       - "sign_petitioner": ${ users[0].signature if i == "final" else '' }
       - "additional_info": ${ petition_ERPO_attachment.overflow_value("risk_of_causing_bodily_injury_to_self_or_others_") }
 ---
 code: |
-  petition_ERPO_attachment.overflow_fields["risk_of_causing_bodily_injury_to_self_or_others_"].overflow_trigger = 460
+  petition_ERPO_attachment.overflow_fields["risk_of_causing_bodily_injury_to_self_or_others_"].overflow_trigger = 400
   petition_ERPO_attachment.overflow_fields["risk_of_causing_bodily_injury_to_self_or_others_"].label = "Risk of causing bodily injury to self or others"
   petition_ERPO_attachment.overflow_fields.gathered = True
 
