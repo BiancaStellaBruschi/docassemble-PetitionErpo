@@ -125,7 +125,7 @@ comment: |
 id: Petition_for_Extreme_Risk_Protection_Order_ERPO
 continue button field: petition_ERPO_intro
 question: |
-  Petition for Extreme Risk Protection Order (ERPO)
+  Petition for Extreme Risk Protection Order (**ERPO**)
 subquestion: |
   The [Petition for Extreme Risk Protection Order, (ERPO)](https://www.mass.gov/how-to/request-an-extreme-risk-protection-order) is a petition for **Police intervention** to **take away firearms** owned by a **member of your** **family**/**household** (aka the **Respondent**) or to ask to **suspend their firearm license** temporarily. 
   
@@ -133,14 +133,14 @@ subquestion: |
     
     * If you do not qualify for filing an ERPO, this interview will inform you accordingly. 
     
-    * If you qualify to file an ERPO, this interview will **generate a complete PDF** of the petition. You will have to bring the form to a [District Court](https://www.mass.gov/special-rules-of-the-district-court/district-court-special-rule-201-clerks-office-hours) or [Boston Municipal Court](https://www.mass.gov/locations/central-division-boston-municipal-court) during **business hours**. If you need to file the petition **outside court business hours**, you can bring the completed form to the Police station of the Respondent's location, or the closest Police Station. 
+    * If you qualify to file an ERPO, this interview will **generate a complete PDF** of the petition. You will have to bring the form to a [District Court](https://www.mass.gov/special-rules-of-the-district-court/district-court-special-rule-201-clerks-office-hours) or [Boston Municipal Court](https://www.mass.gov/locations/central-division-boston-municipal-court) during **Court business hours**. If you need to file the petition **outside Court business hours**, you can bring the completed form to the Police station of the Respondent's location, or the closest Police Station. 
     A judge will then read your form and decide whether to **grant or deny** this petition.
     
     This interview will take **15-20 minutes** to complete. You will have to give your **personal information** and that of the Respondent's, and as much information you can provide about the Respondent's firearm(s) and situation you find yourself in. 
 ---
 id: Person's name 
 question: |
-  What is your name?
+  What is your **name**?
 subquestion: |
   Insert your **full name** below.
 fields:
@@ -151,7 +151,7 @@ fields:
 ---
 id: Who is the person that you are seeking the order against aka the respondent
 question: |
-  Who is the person  that you are seeking the order against (aka the Respondent)?
+  Who is the person  that you are seeking the order against (aka the **Respondent**)?
 subquestion: |
   Insert their **full name** below.
 fields:
@@ -162,7 +162,7 @@ fields:
 ---
 id: person's address
 question: |
-  What is the Respondent’s address?
+  What is the Respondent’s **address**?
 subquestion: |
   Insert their **full address** below (Street number, name of the street, apartment number if present, city, state, and zip code).
 fields:
@@ -175,7 +175,7 @@ fields:
 ---
 id: Is this your first petition to file an ERPO against the respondent or is it a renewal
 question: |
-  Is this your first time filing an ERPO against the Respondent, or is it a renewal?
+  Is this your first time filing an ERPO against the Respondent, or is it a **renewal**?
 subquestion: |
   If this is a **renewal**, check the box below. If not, click 'Next'.
 fields:
@@ -184,7 +184,7 @@ fields:
 ---
 id: What is your current relationship with the respondent
 question: |
-  What is your current relationship with the Respondent?
+  What is your current **relationship** with the Respondent?
 subquestion: |
   Check **all** the options that apply. You can check multiples.  
 fields:
@@ -205,14 +205,14 @@ fields:
 ---
 id: no_relationship
 question: |
-  You are ineligible.
+  You are **ineligible**
 subquestion: |
-  You are **ineligible** to directly file an ERPO. You can phone and alert your local Police Department about your dangerous situation. It will be up to them to decide whether to file an ERPO, after hearing your concerns. For more information, click [here](https://www.mass.gov/service-details/eligibility-for-extreme-risk-protection-orders-erpo).
+  You are **ineligible** to directly file an ERPO. You can go to/phone the Police Station **closest to the Respondent** or the Police Station **closest to you**. It will be up to them to decide whether to file an ERPO, after hearing your concerns. For more information, click [here](https://www.mass.gov/service-details/eligibility-for-extreme-risk-protection-orders-erpo).
 event: no_relationship
 ---
 id: Is there any of the following proceedings open either in Massachusetts or in another jurisdiction
 question: |
-  Are you undertaking any of the following proceedings either in Massachusetts or in other jurisdictions?
+  Are you undertaking any of the following **proceedings** either in Massachusetts or in other jurisdictions?
 subquestion: |
   Only check **if applicable**. If not applicable, don’t check any box and click **'Next'**.
 fields:
@@ -226,7 +226,7 @@ fields:
 
 id: Type of legal acttion and jurisdiction 
 question: |
-  What type of legal action is pending against the Respondent?
+  What type of **legal action** is pending against the Respondent?
 subquestion: |
   Insert the type of **legal action** and specify the given **jurisdiction**.
 fields:
@@ -236,13 +236,13 @@ fields:
 ---
 id: Does the respondent have a License to Carry a Firearm LTC and or a Firearm Identification Card FID Which type of firearm s does the respondent own
 question: |
-  Does the Respondent have a License to Carry a Firearm (LTC) and/or a Firearm Identification Card (FID)? 
+  Does the Respondent have a License to Carry a Firearm (**LTC**) and/or a Firearm Identification Card (**FID**)? 
   | 
-  Which type of firearm(s) does the Respondent own?
+  Which **type** of firearm(s) does the Respondent own?
 subquestion: |
   Indicate the **number** of the ID Card or the License (i.e, LTC n. #####; FID n. #####). 
   
-  If the Respondent **does not** have an LTC or FID, only state what kind of firearm(s) does the Respondent own (i.e., rifle, gun, shotgun, machine gun etc.).
+  If the Respondent **does not** have an LTC or FID, only state **what kind of firearm(s)** does the Respondent own (i.e., rifle, gun, shotgun, machine gun etc.).
 fields:
   - "Respondent's LTC/FID/Firearm(s)": respondents_license_and_weapons
     input type: area
@@ -250,9 +250,9 @@ fields:
 ---
 id: Can you point where the firearm s are located in the house
 question: |
-  Can you point where the firearm(s) are located?
+  Can you point **where** the firearm(s) are located?
 subquestion: |
-  Be as specific as you can. The **more information** you provide, the easier it will be for Police to find the weapon and take it away.
+  Be as specific as you can. The **more information** you provide, the easier it will be for Police to seize the weapon and take it away.
 fields:
   - "Respondents firearms loc": respondents_firearms_loc
     input type: area
@@ -260,7 +260,7 @@ fields:
 ---
 id: Why do you think the respondent poses a risk of injury to you themselves or others by having control of the firearm s
 question: |
-  Why do you think the Respondent poses a risk of injury to you, themselves, or others by having control of the firearm(s)?
+  Why do you think the Respondent poses a **risk of injury** to you, themselves, or others by having control of the firearm(s)?
 subquestion: |
   Give as much **detail** as possible.
 fields:
