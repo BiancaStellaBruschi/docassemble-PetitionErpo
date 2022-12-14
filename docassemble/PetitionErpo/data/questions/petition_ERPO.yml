@@ -376,11 +376,17 @@ review:
 id: download petition_ERPO
 event: petition_ERPO_download
 question: |
-  All done
+  All done: next steps
 subquestion: |
   Thank you ${users}. Your form is ready to download and deliver.
   
   View, download and send your form below. Click the "Edit answers" button to fix any mistakes.
+  
+  After downloading it, you can bring your form to a [District court](https://www.mass.gov/orgs/district-court/locations) or to [Boston Municipal Court](https://www.mass.gov/orgs/boston-municipal-court/locations) during Court business  hours. 
+  
+  If you are past Court business hours, you can bring your form to the  Police Station closest to the Respondent's location. 
+  
+  If you are not able to go to the closest one to the Respondent, you can bring your form to the [closest Police Station](https://www.mass.gov/orgs/massachusetts-state-police/locations?icons=All&helper=&lat=&lng=&page=0). 
 
   ${ action_button_html(url_action('review_petition_ERPO'), label='Edit answers', color='info') }
   
